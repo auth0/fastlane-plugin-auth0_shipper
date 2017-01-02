@@ -31,7 +31,6 @@ module Fastlane
         pod_lib_lint
         push_to_git_remote
         pod_push
-        sh("chandler push #{tag} --git=../.git --changelog=#{params[:readme]}")
         UI.success "Shipped #{next_version}! 🚀"
       end
 
