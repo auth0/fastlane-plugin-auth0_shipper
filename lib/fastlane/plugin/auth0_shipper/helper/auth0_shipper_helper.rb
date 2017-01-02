@@ -4,7 +4,7 @@ module Fastlane
   module Helper
     class Auth0ShipperHelper
 
-      def self.next_version(current, bump)
+      def self.next_version_version(current, bump)
         current.increment!(bump_type)
       end
 
@@ -18,8 +18,8 @@ module Fastlane
         Semantic::Version.new current_version_number
       end
 
-      def prepare_changelog(current, next, organization, repository)
-        command = "curl -H \"Accept: text/markdown\" https://webtask.it.auth0.com/api/run/wt-hernan-auth0_com-0/oss-changelog.js\\?webtask_no_cache=1\\&repo=#{repository}\\&milestone=#{next}"
+      def prepare_changelog(current, next_version, organization, repository)
+        command = "curl -H \"Accept: text/markdown\" https://webtask.it.auth0.com/api/run/wt-hernan-auth0_com-0/oss-changelog.js\\?webtask_no_cache=1\\&repo=#{repository}\\&milestone=#{next_version}"
         changelog = FastlaneCore::CommandExecutor.execute(
           command: command,
           print_command: false,
@@ -28,8 +28,8 @@ module Fastlane
           end
         )
         "# Change Log\n\n" +
-        "## [#{next}](https://github.com/#{organization}/#{repository}/tree/#{next}) (#{Time.now.strftime('%Y-%m-%d')})\n" +
-        "[Full Changelog](https://github.com/#{organization}/#{repository}/compare/#{current}...#{next})\n\n" +
+        "## [#{next_version}](https://github.com/#{organization}/#{repository}/tree/#{next_version}) (#{Time.now.strftime('%Y-%m-%d')})\n" +
+        "[Full Changelog](https://github.com/#{organization}/#{repository}/compare/#{current}...#{next_version})\n\n" +
         changelog
       end
 
@@ -37,8 +37,8 @@ module Fastlane
         File.write(f = file, File.read(f).gsub(/# Change Log/, entry))
       end
 
-      def prepare_readme_file(file, current, next)
-        File.write(f = file_name, File.read(f).gsub(/~> #{current.major}\.#{current.minor}/, "~> #{next.major}.#{next.minor}"))
+      def prepare_readme_file(file, current, next_version)
+        File.write(f = file_name, File.read(f).gsub(/~> #{current.major}\.#{current.minor}/, "~> #{next_version.major}.#{next_version.minor}"))
       end
     end
   end
