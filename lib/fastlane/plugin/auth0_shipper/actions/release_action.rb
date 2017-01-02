@@ -56,35 +56,35 @@ module Fastlane
                                   env_name: "AUTH0_SHIPPER_BUMP",
                                description: "If the version bump is major, minor or patch",
                                   optional: true,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :version,
                                   env_name: "AUTH0_SHIPPER_VERSION",
                                description: "Version of the release to perform. It ignores bump if both are supplied",
                                   optional: true,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :readme,
                                   env_name: "AUTH0_SHIPPER_README",
                                description: "Path to the README file",
                              default_value: "../README.md"
                                   optional: true,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :changelog,
                                   env_name: "AUTH0_SHIPPER_CHANGELOG",
                                description: "Path to the CHANGELOG file",
                              default_value: "../CHANGELOG.md"
                                   optional: true,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :organization,
                                   env_name: "AUTH0_SHIPPER_ORGANIZATION",
                                description: "Github organization where the library is available",
                              default_value: "auth0"
                                   optional: true,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :repository,
                                   env_name: "AUTH0_SHIPPER_REPOSITORY",
                                description: "Github repository name where the library is available",
                                   optional: false,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :xcodeproj,
                                   env_name: "AUTH0_SHIPPER_XCODEPROJ",
                                description: "Xcode project file",
