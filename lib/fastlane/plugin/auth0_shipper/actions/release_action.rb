@@ -65,19 +65,19 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :readme,
                                   env_name: "AUTH0_SHIPPER_README",
                                description: "Path to the README file",
-                             default_value: "../README.md"
+                             default_value: "../README.md",
                                   optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :changelog,
                                   env_name: "AUTH0_SHIPPER_CHANGELOG",
                                description: "Path to the CHANGELOG file",
-                             default_value: "../CHANGELOG.md"
+                             default_value: "../CHANGELOG.md",
                                   optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :organization,
                                   env_name: "AUTH0_SHIPPER_ORGANIZATION",
                                description: "Github organization where the library is available",
-                             default_value: "auth0"
+                             default_value: "auth0",
                                   optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :repository,
