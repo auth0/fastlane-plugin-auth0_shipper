@@ -27,6 +27,7 @@ module Fastlane
         current_version_tag = tag_current_version
         current_version = current_version_plist
         current_version = UI.select("Please select current version", [current_version_plist, current_version_tag]) unless current_version_tag.nil? || (current_version_plist == current_version_tag)
+        current_version
       end
 
       def self.prepare_changelog(current, next_version, organization, repository)

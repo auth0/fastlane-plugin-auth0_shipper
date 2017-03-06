@@ -14,7 +14,7 @@ module Fastlane
         changelog_entry = Helper::Auth0ShipperHelper.prepare_changelog(current_version, next_version, params[:organization], params[:repository])
         Helper::Auth0ShipperHelper.prepare_changelog_file(params[:changelog], changelog_entry)
         UI.message "\n#{changelog_entry}"
-        `"/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" -w #{params[:changelog]}` unless UI.confirm("is CHANGELOG for version #{next_version} Ok?")
+        system("vim #{params[:changelog]}") unless UI.confirm("is CHANGELOG for version #{next_version} Ok?")
         Helper::Auth0ShipperHelper.prepare_readme_file(params[:readme], current_version, next_version)
         Actions::GitAddAction.run(path: [params[:readme], params[:changelog]])
         Actions::IncrementVersionNumberAction.run(version_number: next_version.to_s)
