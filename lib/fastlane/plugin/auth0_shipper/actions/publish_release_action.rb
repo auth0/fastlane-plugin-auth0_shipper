@@ -7,7 +7,7 @@ module Fastlane
         Actions::PodLibLintAction.run({})
         Actions::PushToGitRemoteAction.run({remote: 'origin', tags: true})
         Actions::PodPushAction.run({})
-        UI.success "Shipped #{next_version}! 🚀"
+        UI.success "Shipped #{tag}! 🚀"
       end
 
       def self.description
