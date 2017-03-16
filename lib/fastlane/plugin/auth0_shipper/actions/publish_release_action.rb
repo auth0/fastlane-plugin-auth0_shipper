@@ -5,7 +5,7 @@ module Fastlane
         tag = Actions::LastGitTagAction.run({})
         UI.header "Publishing release #{tag} 📨"
         Actions::PodLibLintAction.run({})
-        Actions::PushToGitRemoteAction.run({})
+        Actions::PushToGitRemoteAction.run({remote: 'origin', tags: true})
         Actions::PodPushAction.run({})
         UI.success "Shipped #{next_version}! 🚀"
       end
