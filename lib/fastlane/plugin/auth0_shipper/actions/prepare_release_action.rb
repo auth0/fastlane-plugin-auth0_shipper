@@ -18,7 +18,7 @@ module Fastlane
         Helper::Auth0ShipperHelper.prepare_readme_file(params[:readme], current_version, next_version)
         Actions::GitAddAction.run(path: [params[:readme], params[:changelog]])
         Actions::IncrementVersionNumberAction.run(version_number: next_version.to_s)
-        Actions::CommitVersionBumpAction.run(message: "Release #{next_version}", xcodeproj: params[:xcodeproj], force: true)
+        Actions::CommitVersionBumpAction.run(message: "Release #{next_version}", xcodeproj: params[:xcodeproj], include: [], force: true)
         Actions::AddGitTagAction.run(tag: next_version.to_s)
         UI.success "Release #{next_version} ready to be uploaded! 📦"
         next_version
