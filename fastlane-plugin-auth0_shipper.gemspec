@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = %q{hernan.zalazar@gmail.com}
 
   spec.summary       = %q{OSS libraries release process for Auth0}
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-auth0_shipper"
+  spec.homepage      = "https://github.com/auth0/fastlane-plugin-auth0_shipper"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'fastlane', '>= 2.0.3'
+  spec.add_development_dependency 'fastlane', '>= 2.96.1'
 end
