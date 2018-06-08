@@ -10,7 +10,8 @@ module Fastlane
           api_token: params[:github_token],
           name: tag.to_s,
           tag_name: tag.to_s,
-          description: changelog_entry
+          description: changelog_entry,
+          server_url: 'https://api.github.com'
         }) unless params[:github_token].nil?
         Actions::PodLibLintAction.run({})
         Actions::PodPushAction.run({})

@@ -2,10 +2,10 @@ module Fastlane
   module Actions
     class PerformReleaseAction < Action
       def self.run(params)
-        version = Helper::Auth0ShipperHelper.resolve_current_version(params[:target])
+        version = Helper::Auth0ShipperHelper.ios_current_version(params[:target])
         UI.header "Performing release for version #{version} 🏗"
         Actions::AddGitTagAction.run(tag: version.to_s)
-        Actions::PushToGitRemoteAction.run({tags: true})
+        Actions::PushGitTagsAction.run({remote: 'origin', tag: version.to_s})
       end
 
       def self.description
