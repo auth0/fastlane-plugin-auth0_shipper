@@ -23,8 +23,17 @@ module Fastlane
         Actions::GitAddAction.run(path: [params[:readme], params[:changelog]])
         Actions::IncrementVersionNumberAction.run(version_number: next_version.to_s)
         Actions::CommitVersionBumpAction.run(message: "Release #{next_version}", xcodeproj: params[:xcodeproj], include: [], force: true)
-        Actions::AddGitTagAction.run(tag: next_version.to_s)
         UI.success "Release #{next_version} ready to be uploaded! 📦"
+        Actions::PushToGitRemoteAction.run({remote: 'origin', local_branch: release_branch}) unless params[:local_run]
+        Actions::CreatePullRequestAction.run({
+          api_token: params[:github_token],
+          repo: "#{params[:organization]}/#{params[:repository]}",
+          head: release_branch,
+          base: 'master',
+          title: "Release #{next_version}",
+          body: changelog_entry,
+          api_url: 'https://api.github.com'
+        }) unless params[:local_run] || params[:github_token].nil?
         next_version
       end
 
@@ -93,7 +102,18 @@ module Fastlane
                                   env_name: "AUTH0_SHIPPER_RELEASE_BRANCH",
                                description: "Name of the release branch to use",
                                   optional: true,
-                                      type: String)
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :github_token,
+                                  env_name: "AUTH0_SHIPPER_GITHUB_TOKEN",
+                               description: "Github token to create Pull Request",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :local_run,
+                                  env_name: "AUTH0_SHIPPER_LOCAL_RUN",
+                               description: "Avoid pushing changes to remote repository",
+                             default_value: false,
+                                  optional: true,
+                                      type: Boolean)
         ]
       end
 
