@@ -4,7 +4,7 @@ module Fastlane
       def self.run(params)
         Actions::EnsureGitStatusCleanAction.run({})
         UI.user_error!("Must specify if the release is major, minor or patch or the version number") if params[:bump].nil? && params[:version].nil?
-        current_version = Helper::Auth0ShipperHelper.resolve_current_version
+        current_version = Helper::Auth0ShipperHelper.resolve_current_version(params[:target])
         if params[:version].nil?
           next_version = Helper::Auth0ShipperHelper.calculate_next_version(current_version, params[:bump])
         else
@@ -79,6 +79,11 @@ module Fastlane
                                   env_name: "AUTH0_SHIPPER_XCODEPROJ",
                                description: "Xcode project file",
                                   optional: false,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :target,
+                                  env_name: "AUTH0_SHIPPER_TARGET",
+                               description: "Xcode target for the Library",
+                                  optional: true,
                                       type: String)
         ]
       end

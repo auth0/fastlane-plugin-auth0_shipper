@@ -11,8 +11,8 @@ module Fastlane
         Semantic::Version.new version
       end
 
-      def self.ios_current_version
-        current_version_number = Actions::GetVersionNumberAction.run({})
+      def self.ios_current_version(target)
+        current_version_number = Actions::GetVersionNumberAction.run({target: target})
         UI.user_error!("Cannot find current version number from .xcodeproj") if current_version_number.nil?
         Semantic::Version.new current_version_number
       end
@@ -22,8 +22,8 @@ module Fastlane
         Semantic::Version.new tag.to_s unless tag.nil?
       end
 
-      def self.resolve_current_version
-        current_version_plist = ios_current_version
+      def self.resolve_current_version(target)
+        current_version_plist = ios_current_version(target)
         current_version_tag = tag_current_version
         current_version = current_version_plist
         current_version = UI.select("Please select current version", [current_version_plist, current_version_tag]) unless current_version_tag.nil? || (current_version_plist == current_version_tag)
