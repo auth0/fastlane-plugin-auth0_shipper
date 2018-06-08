@@ -11,6 +11,10 @@ module Fastlane
           next_version = Helper::Auth0ShipperHelper.wrap_version params[:version]
         end
         UI.header "Preparing release for version #{next_version} 🏗"
+        release_branch = Helper::Auth0ShipperHelper.release_branch_name(params[:release_branch], next_version)
+        UI.user_error!("There is a local or remote branch named #{release_branch}. Please remove it or pick a different name for this release") if Helper::Auth0ShipperHelper.release_branch_exists(release_branch)
+        UI.message "Using release branch #{release_branch}"
+        Helper::Auth0ShipperHelper.create_release_branch(release_branch)
         changelog_entry = Helper::Auth0ShipperHelper.prepare_changelog(current_version, next_version, params[:organization], params[:repository])
         Helper::Auth0ShipperHelper.prepare_changelog_file(params[:changelog], changelog_entry)
         UI.message "\n#{changelog_entry}"
@@ -83,6 +87,11 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :target,
                                   env_name: "AUTH0_SHIPPER_TARGET",
                                description: "Xcode target for the Library",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :release_branch,
+                                  env_name: "AUTH0_SHIPPER_RELEASE_BRANCH",
+                               description: "Name of the release branch to use",
                                   optional: true,
                                       type: String)
         ]

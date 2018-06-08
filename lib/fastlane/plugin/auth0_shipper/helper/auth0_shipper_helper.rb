@@ -52,6 +52,24 @@ module Fastlane
       def self.prepare_readme_file(file_name, current, next_version)
         File.write(f = file_name, File.read(f).gsub(/~> #{current.major}\.#{current.minor}/, "~> #{next_version.major}.#{next_version.minor}"))
       end
+
+      def self.release_branch_name(name, next_version)
+        branch_name = "release-#{next_version}"
+        branch_name = name unless name.nil?
+        branch_name
+      end
+
+      def self.create_release_branch(name)
+        system("git checkout -q -b #{name}")
+      end
+
+      def self.release_branch_exists(name)
+        system("git branch --list -a | grep -q #{name}")
+      end
+
+      def self.clean_release_branch(name, force)
+        system("git branch -q #{force ? '-D' : '-d'} #{name}")
+      end
     end
   end
 end
