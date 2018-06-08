@@ -3,7 +3,7 @@ module Fastlane
     class PerformReleaseAction < Action
       def self.run(params)
         version = Helper::Auth0ShipperHelper.resolve_current_version(params[:target])
-        UI.header "Performing release for version #{next_version} 🏗"
+        UI.header "Performing release for version #{version} 🏗"
         Actions::AddGitTagAction.run(tag: version.to_s)
         Actions::PushToGitRemoteAction.run({tags: true})
       end
@@ -21,7 +21,7 @@ module Fastlane
       end
 
       def self.details
-        "Performs the release of an Auth0 OSS library by creating a tag and pushing it to the remote"
+        "Performs the release of an Auth0 OSS library by creating a tag and pushing it to the remote, and creating the Github Release"
       end
 
       def self.available_options

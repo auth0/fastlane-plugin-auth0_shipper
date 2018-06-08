@@ -4,6 +4,14 @@ module Fastlane
       def self.run(params)
         tag = Actions::LastGitTagAction.run({})
         UI.header "Publishing release #{tag} 📨"
+        changelog_entry = Helper::Auth0ShipperHelper.get_changelog(tag.to_s, params[:changelog])
+        Actions::SetGithubReleaseAction.run({
+          repository_name: "#{params[:organization]}/#{params[:repository]}",
+          api_token: params[:github_token],
+          name: tag.to_s,
+          tag_name: tag.to_s,
+          description: changelog_entry
+        }) unless params[:github_token].nil?
         Actions::PodLibLintAction.run({})
         Actions::PodPushAction.run({})
         UI.success "Shipped #{tag}! 🚀"
@@ -26,7 +34,30 @@ module Fastlane
       end
 
       def self.available_options
-        []
+        [
+          FastlaneCore::ConfigItem.new(key: :organization,
+                                  env_name: "AUTH0_SHIPPER_ORGANIZATION",
+                               description: "Github organization where the library is available",
+                             default_value: "auth0",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :repository,
+                                  env_name: "AUTH0_SHIPPER_REPOSITORY",
+                               description: "Github repository name where the library is available",
+                                  optional: false,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :github_token,
+                                  env_name: "AUTH0_SHIPPER_GITHUB_TOKEN",
+                               description: "Github token to create Pull Request",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :changelog,
+                                  env_name: "AUTH0_SHIPPER_CHANGELOG",
+                               description: "Path to the CHANGELOG file",
+                             default_value: "CHANGELOG.md",
+                                  optional: true,
+                                      type: String)
+        ]
       end
 
       def self.is_supported?(platform)

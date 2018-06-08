@@ -45,6 +45,25 @@ module Fastlane
         changelog
       end
 
+      def self.get_changelog(version, filename)
+        lines = []
+        found = false
+        version_header = "## [#{version}]"
+        header_format = /\#\# \[.*\]\(https:\/\/github\.com/
+
+        File.open(filename) do | file |
+          while (line = file.gets) != nil do
+            is_version_header = line.strip.start_with? version_header
+            is_next_header = line.match(header_format) && !is_version_header && found
+            break if is_next_header
+            found = true if is_version_header
+            lines << line.strip if !is_version_header && found
+          end
+        end
+
+        string = lines.join "\n"
+      end
+
       def self.prepare_changelog_file(file, entry)
         File.write(f = file, File.read(f).gsub(/# Change Log/, entry))
       end
