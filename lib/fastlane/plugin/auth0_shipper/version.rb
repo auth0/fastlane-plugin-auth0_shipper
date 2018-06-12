@@ -1,5 +1,5 @@
 module Fastlane
   module Auth0Shipper
-    VERSION = "0.3.1"
+    VERSION = "0.4.0"
   end
 end
