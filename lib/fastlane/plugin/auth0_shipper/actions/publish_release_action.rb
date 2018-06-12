@@ -13,8 +13,8 @@ module Fastlane
           description: changelog_entry,
           server_url: 'https://api.github.com'
         }) unless params[:github_token].nil?
-        Actions::PodLibLintAction.run({})
-        Actions::PodPushAction.run({})
+        Actions::PodLibLintAction.run({allow_warnings: params[:pod_lint_allow_warnings]})
+        Actions::PodPushAction.run({allow_warnings: params[:pod_lint_allow_warnings]})
         UI.success "Shipped #{tag}! 🚀"
       end
 
@@ -58,6 +58,18 @@ module Fastlane
                              default_value: "CHANGELOG.md",
                                   optional: true,
                                       type: String)
+          FastlaneCore::ConfigItem.new(key: :local_run,
+                                  env_name: "AUTH0_SHIPPER_LOCAL_RUN",
+                               description: "Avoid pushing changes to remote repository",
+                             default_value: false,
+                                  optional: true,
+                                      type: Boolean),
+          FastlaneCore::ConfigItem.new(key: :pod_lint_allow_warnings,
+                                  env_name: "AUTH0_SHIPPER_POD_LINT_ALLOW_WARNINGS",
+                               description: "Avoid allow warnings during pod linter",
+                             default_value: false,
+                                  optional: true,
+                                      type: Boolean)
         ]
       end
 
