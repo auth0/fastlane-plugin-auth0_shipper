@@ -57,7 +57,7 @@ module Fastlane
                                description: "Path to the CHANGELOG file",
                              default_value: "CHANGELOG.md",
                                   optional: true,
-                                      type: String)
+                                      type: String),
           FastlaneCore::ConfigItem.new(key: :local_run,
                                   env_name: "AUTH0_SHIPPER_LOCAL_RUN",
                                description: "Avoid pushing changes to remote repository",
